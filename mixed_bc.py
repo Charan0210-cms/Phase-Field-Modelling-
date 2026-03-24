@@ -1,66 +1,113 @@
 """
-7.  1D Heat Equation – FDM and Mixed BC (Dirichlet and Neumann)
-Constant initial condition (spike at midpoint).
-Dirichlet BC at x0 (left end).
-Neumann BC at xL (right end) via ghost-point technique.
+8.3  2D Heat Equation – FDM and Mixed BC (Dirichlet and Neumann)
+    u_top    (Dirichlet) = 0.0
+    u_bottom (Dirichlet) = 0.0
+    u_left   (Neumann)   = 50.0   (flux dT/dx at left)
+    u_right  (Neumann)   = 50.0   (flux dT/dx at right)
+
+Ghost-point technique applied on the Neumann (left/right) edges.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
+import os
 
+# Interactive inputs 
+w  = int(input("Enter length of the material (x-axis) [1]: ")   or 1)
+h  = int(input("Enter width  of the material (y-axis) [1]: ")   or 1)
+t  = int(input("Enter total time interval (ms) [500]: ")         or 500)
 
-M  = int(input("Enter No. of grid points for space interval [3000]: ")
-N  = int(input("Enter No. of grid points for time  interval [3000]: ") 
-x0 = float(input("Enter starting space grid point [0]: ")  
-xL = float(input("Enter final   space grid point  [100]: ") 
-t0 = float(input("Enter starting time  grid point [0]: ")  
-tF = float(input("Enter final   time   grid point  [10]: ") 
-D  = float(input("Enter Thermal Diffusivity value  [0.005]: ")
-bc1 = float(input("Enter Dirichlet value at x0 for any t [30]: ") 
-bc2 = float(input("Enter Neumann flux  at xL for any t  [60]: ")
+Nx = int(input("Enter number of grid points for length [50]: ")  or 50)
+Ny = int(input("Enter number of grid points for width  [50]: ")  or 50)
+Nt = int(input("Enter number of grid points for time   [500]: ") or 500)
 
-#  Grid 
-t_vec = np.linspace(t0, tF, N)
-x_vec = np.linspace(x0, xL, M)
+D1 = int(input("Enter Thermal Diffusivity value (×10⁻⁵) [1]: ") or 1)
+D  = D1 / 100000
+
+ic     = int(input("Enter initial condition temperature [0]: ")        or 0)
+top    = int(input("Enter Dirichlet temp at top    [0]: ")             or 0)
+bottom = int(input("Enter Dirichlet temp at bottom [0]: ")             or 0)
+left   = int(input("Enter Neumann dT/dx flux at left  [50]: ")        or 50)
+right  = int(input("Enter Neumann dT/dx flux at right [50]: ")        or 50)
+
+# Grid 
+x_vec = np.linspace(0, w, Nx)
+y_vec = np.linspace(0, h, Ny)
+
 dx = x_vec[1] - x_vec[0]
-dt = t_vec[1] - t_vec[0]
-alpha = D * dt / dx**2
+dy = y_vec[1] - y_vec[0]
+x2, y2 = dx**2, dy**2
 
-print(f"Stability parameter alpha = {alpha:.6f}  ({'stable' if alpha <= 0.5 else 'UNSTABLE'})")
+dt = (x2 * y2) / (2 * D * (x2 + y2))
+kx = D * dt / x2
+ky = D * dt / y2
 
-T = np.zeros((M, N))
+print(f"kx = {kx:.6f},  ky = {ky:.6f}")
 
-# Dirichlet BC at left end (held for all time)
-T[0, :] = bc1
+T = np.zeros((Ny, Nx, Nt))
+T[:, :, 0] = ic
 
-# Initial condition: spike at midpoint
-mid = M // 2
-T[mid, 0] = 100
+# Dirichlet BCs (top & bottom, held for all time)
+T[Nx - 1, :, :] = top
+T[0,      :, :] = bottom
 
-# Time-stepping 
-for n in range(0, N - 1):
-    # Neumann BC at right end (ghost-point)
-    T[M - 1, n + 1] = (alpha * (T[M - 2, n] + (2 * dx * bc2) + T[M - 2, n])
-                        + (1 - 2 * alpha) * T[M - 1, n])
+#  Time-stepping with Neumann on left/right via ghost points
+for k in range(1, Nt):
+    # Neumann left boundary (j = 0): ghost point u[-1] = u[1] - 2*dx*left
+    for j in range(1, Ny - 1):
+        T[j, 0, k] = (kx * (2 * T[j, 1, k - 1] - (2 * dx * left) - 2 * T[j, 0, k - 1])
+                      + T[j, 0, k - 1]
+                      + ky * (T[j + 1, 0, k - 1] + T[j - 1, 0, k - 1] - 2 * T[j, 0, k - 1]))
 
     # Interior nodes
-    for i in range(1, M - 1):
-        T[i, n + 1] = (alpha * (T[i - 1, n] + T[i + 1, n])
-                       + (1 - 2 * alpha) * T[i, n])
+    for i in range(1, Nx - 1):
+        for j in range(1, Ny - 1):
+            H = kx * (T[j, i + 1, k - 1] + T[j, i - 1, k - 1] - 2 * T[j, i, k - 1])
+            V = ky * (T[j + 1, i, k - 1] + T[j - 1, i, k - 1] - 2 * T[j, i, k - 1])
+            T[j, i, k] = T[j, i, k - 1] + H + V
 
-# Plot 
-snapshots = [49, 99, 249, 499, 999]
-snapshots = [s for s in snapshots if s < N]
+    # Neumann right boundary (j = Ny-1): ghost point u[Ny] = u[Ny-2] + 2*dx*right
+    for j in range(1, Ny - 1):
+        T[j, Ny - 1, k] = (kx * (2 * T[j, Ny - 2, k - 1] + (2 * dx * right) - 2 * T[j, Ny - 1, k - 1])
+                           + T[j, Ny - 1, k - 1]
+                           + ky * (T[j + 1, Ny - 1, k - 1] + T[j - 1, Ny - 1, k - 1]
+                                   - 2 * T[j, Ny - 1, k - 1]))
 
-plt.figure(figsize=(9, 5))
-for s in snapshots:
-    plt.plot(x_vec, T[:, s], label=str(s + 1))
+#  4-panel snapshot plot 
+fig, axes = plt.subplots(2, 2, figsize=(10, 8))
+steps = [0, Nt // 3, 2 * Nt // 3, Nt - 1]
 
-plt.xlabel('Space')
-plt.ylabel('Temperature')
-plt.title('1D Heat Equation – FDM & Mixed BC (Dirichlet + Neumann)')
-plt.legend(title='Time step')
+for ax, s in zip(axes.flat, steps):
+    cf = ax.contourf(x_vec, y_vec, T[:, :, s])
+    fig.colorbar(cf, ax=ax)
+    ax.set_title(f'Temperature at timestep {s + 1}')
+
+plt.suptitle('2D Heat Equation – Mixed BC (Dirichlet top/bottom, Neumann left/right)')
 plt.tight_layout()
-plt.savefig('7_mixed_bc_2D.png', dpi=150)
+plt.savefig("8_3_heat_equation_mixed_bc_panels.png", dpi=150)
 plt.show()
-print("Saved: 7_mixed_bc_2D.png")
+print("Saved: 8_3_heat_equation_mixed_bc_panels.png")
+
+# Save GIF 
+os.makedirs("2D_mixed_BC_frames", exist_ok=True)
+image_frames = []
+
+for k in range(0, Nt):
+    plt.contourf(x_vec, y_vec, T[:, :, k])
+    plt.colorbar()
+    plt.title(f'Temperature at timestep {k + 1}')
+    fname = f"2D_mixed_BC_frames/frame_{k + 1:04d}.jpg"
+    plt.savefig(fname)
+    plt.clf()
+    image_frames.append(Image.open(fname))
+
+image_frames[0].save(
+    "8_3_heat_equation_mixed_bc_evolution.gif",
+    format='GIF',
+    append_images=image_frames[1:],
+    save_all=True,
+    duration=t,
+    loop=0
+)
+print("Saved: 8_3_heat_equation_mixed_bc_evolution.gif")
