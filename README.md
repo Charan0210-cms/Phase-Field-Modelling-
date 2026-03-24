@@ -122,53 +122,5 @@ The pearlite dissolution problem was implemented for:
 
 The simulations track the **evolution of carbon concentration** over time.
 
-## Key Learning Outcomes
-Through this work, I gained experience in:
-- Understanding PDE fundamentals
-- Applying numerical discretization techniques
-- Implementing explicit FDM schemes
-- Working with different types of boundary conditions
-- Visualizing numerical solutions in 2D and 3D
-- Connecting diffusion equations to materials-science problems
-- Modeling pearlite dissolution conceptually through concentration evolution
 
-## Suggested Repository Structure
-Since the original Python files are currently unavailable, this repository can be organized as follows for documentation purposes:
 
-```text
-.
-├── README.md
-├── report/
-│   └── PF-Internship report.pdf
-├── images/
-│   ├── 1d_heat_equation_results.png
-│   ├── 2d_heatmap_results.png
-│   └── pearlite_dissolution_results.png
-└── notes/
-    └── methodology.md
-```
-
-## Software / Tools
-Based on the report, the numerical work appears to have involved:
-- **Python**
-- Numerical arrays / matrix-based computation
-- Plotting for 2D and 3D visualization
-
-If the code is rebuilt later, likely dependencies may include:
-- `numpy`
-- `matplotlib`
-
-## Future Improvements
-Possible future additions to this repository:
-- Rebuild the original Python scripts
-- Add cleaned and commented code for each numerical case
-- Include stability-condition explanations for explicit schemes
-- Add animations and output plots
-- Extend the work to implicit methods and more advanced phase-field simulations
-
-## Reference
-This README is reconstructed from the internship report and is intended to document the scope of the work even though the original code files are currently missing.
-
-## Author
-**Charan MS**  
-College of Engineering, Guindy, Anna University
