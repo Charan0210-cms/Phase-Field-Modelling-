@@ -48,9 +48,9 @@ The Finite Difference Method works by discretising the spatial and time domains 
 
 ## References
 
-Causon & Mingham — *Introductory Finite Difference Methods for PDEs*
-Langtangen & Linge — *Finite Difference Computing with PDEs*
-Mazumder — *Numerical Methods for PDEs: Finite Difference and Finite Volume Methods*
+Causon & Mingham — *Introductory Finite Difference Methods for PDEs*,
+Langtangen & Linge — *Finite Difference Computing with PDEs*,
+Mazumder — *Numerical Methods for PDEs: Finite Difference and Finite Volume Methods*,
 Rajan, Sharma & Sharma — *Heat Treatment: Principles and Techniques*
 
 Internship submitted to: Dr Prince Gideon Kubendran Amos, NIT Tiruchirappalli  
