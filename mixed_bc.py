@@ -14,22 +14,22 @@ from PIL import Image
 import os
 
 # Interactive inputs 
-w  = int(input("Enter length of the material (x-axis) [1]: ")   or 1)
-h  = int(input("Enter width  of the material (y-axis) [1]: ")   or 1)
-t  = int(input("Enter total time interval (ms) [500]: ")         or 500)
+w  = int(input("Enter length of the material (x-axis) [1]: "))
+h  = int(input("Enter width  of the material (y-axis) [1]: "))
+t  = int(input("Enter total time interval (ms) [500]: "))
 
-Nx = int(input("Enter number of grid points for length [50]: ")  or 50)
-Ny = int(input("Enter number of grid points for width  [50]: ")  or 50)
-Nt = int(input("Enter number of grid points for time   [500]: ") or 500)
+Nx = int(input("Enter number of grid points for length [50]: "))
+Ny = int(input("Enter number of grid points for width  [50]: "))
+Nt = int(input("Enter number of grid points for time   [500]: "))
 
 D1 = int(input("Enter Thermal Diffusivity value (×10⁻⁵) [1]: ") or 1)
 D  = D1 / 100000
 
-ic     = int(input("Enter initial condition temperature [0]: ")        or 0)
-top    = int(input("Enter Dirichlet temp at top    [0]: ")             or 0)
-bottom = int(input("Enter Dirichlet temp at bottom [0]: ")             or 0)
-left   = int(input("Enter Neumann dT/dx flux at left  [50]: ")        or 50)
-right  = int(input("Enter Neumann dT/dx flux at right [50]: ")        or 50)
+ic     = int(input("Enter initial condition temperature [0]: "))
+top    = int(input("Enter Dirichlet temp at top    [0]: "))
+bottom = int(input("Enter Dirichlet temp at bottom [0]: "))
+left   = int(input("Enter Neumann dT/dx flux at left  [50]: "))
+right  = int(input("Enter Neumann dT/dx flux at right [50]: "))
 
 # Grid 
 x_vec = np.linspace(0, w, Nx)
