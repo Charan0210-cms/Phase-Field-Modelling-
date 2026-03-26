@@ -9,23 +9,22 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 
-# Interactive inputs 
-w  = int(input("Enter length of the material (x-axis) [1]: ")   or 1)
-h  = int(input("Enter width  of the material (y-axis) [1]: ")   or 1)
-t  = int(input("Enter total time interval (ms) [500]: ")         or 500)
+w  = int(input("Enter length of the material (x-axis) [1]: "))
+h  = int(input("Enter width  of the material (y-axis) [1]: "))
+t  = int(input("Enter total time interval (ms) [500]: "))
 
-Nx = int(input("Enter number of grid points for length [50]: ")  or 50)
-Ny = int(input("Enter number of grid points for width  [50]: ")  or 50)
-Nt = int(input("Enter number of grid points for time   [500]: ") or 500)
+Nx = int(input("Enter number of grid points for length [50]: "))
+Ny = int(input("Enter number of grid points for width  [50]: "))
+Nt = int(input("Enter number of grid points for time   [500]: "))
 
-D1 = int(input("Enter Thermal Diffusivity value (×10⁻⁵) [1]: ") or 1)
+D1 = int(input("Enter Thermal Diffusivity value (×10⁻⁵) [1]: "))
 D  = D1 / 100000
 
-ic     = int(input("Enter initial condition temperature [0]: ")   or 0)
-top    = int(input("Enter temp value at top    [200]: ") or 200)
-bottom = int(input("Enter temp value at bottom [0]: ")   or 0)
-left   = int(input("Enter temp value at left   [0]: ")   or 0)
-right  = int(input("Enter temp value at right  [0]: ")   or 0)
+ic     = int(input("Enter initial condition temperature [0]: "))
+top    = int(input("Enter temp value at top    [200]: "))
+bottom = int(input("Enter temp value at bottom [0]: "))
+left   = int(input("Enter temp value at left   [0]: "))
+right  = int(input("Enter temp value at right  [0]: "))
 
 #  Grid 
 x_vec = np.linspace(0, w, Nx)
