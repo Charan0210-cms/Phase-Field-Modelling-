@@ -11,21 +11,21 @@ from PIL import Image
 import os
 
 
-w  = int(input("Enter length of the material (x-axis) [1]: ")   
-h  = int(input("Enter width  of the material (y-axis) [1]: ")  
-t  = int(input("Enter total time interval (ms) [500]: ")        
+w  = int(input("Enter length of the material (x-axis) [1]: "))   
+h  = int(input("Enter width  of the material (y-axis) [1]: "))  
+t  = int(input("Enter total time interval (ms) [500]: "))        
 
-Nx = int(input("Enter number of grid points for length [100]: ") 
-Ny = int(input("Enter number of grid points for width  [100]: ")
-Nt = int(input("Enter number of grid points for time   [500]: ") 
+Nx = int(input("Enter number of grid points for length [100]: ")) 
+Ny = int(input("Enter number of grid points for width  [100]: "))
+Nt = int(input("Enter number of grid points for time   [500]: ")) 
 
-D1 = int(input("Enter Diffusion coefficient value (×10⁻⁵) [1]: ") 
+D1 = int(input("Enter Diffusion coefficient value (×10⁻⁵) [1]: ")) 
 D  = D1 / 100000
 
-top    = int(input("Enter dC/dx flux at top    [0]: ") 
-bottom = int(input("Enter dC/dx flux at bottom [0]: ") 
-left   = int(input("Enter dC/dx flux at left   [0]: ") 
-right  = int(input("Enter dC/dx flux at right  [0]: ") 
+top    = int(input("Enter dC/dx flux at top    [0]: ")) 
+bottom = int(input("Enter dC/dx flux at bottom [0]: ")) 
+left   = int(input("Enter dC/dx flux at left   [0]: ")) 
+right  = int(input("Enter dC/dx flux at right  [0]: ")) 
 
 # Grid 
 x_vec = np.linspace(0, w, Nx)
