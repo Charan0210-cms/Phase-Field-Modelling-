@@ -8,16 +8,16 @@ Neumann BC at xL (right end) via ghost-point technique.
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ── Interactive inputs ────────────────────────────────────────────
-M  = int(input("Enter No. of grid points for space interval [3000]: ") or 3000)
-N  = int(input("Enter No. of grid points for time  interval [3000]: ") or 3000)
-x0 = float(input("Enter starting space grid point [0]: ")   or 0)
-xL = float(input("Enter final   space grid point  [100]: ") or 100)
-t0 = float(input("Enter starting time  grid point [0]: ")   or 0)
-tF = float(input("Enter final   time   grid point  [10]: ") or 10)
-D  = float(input("Enter Thermal Diffusivity value  [0.005]: ") or 0.005)
-bc1 = float(input("Enter Dirichlet value at x0 for any t [30]: ") or 30)
-bc2 = float(input("Enter Neumann flux  at xL for any t  [60]: ") or 60)
+
+M  = int(input("Enter No. of grid points for space interval [3000]: "))
+N  = int(input("Enter No. of grid points for time  interval [3000]: "))
+x0 = float(input("Enter starting space grid point [0]: "))
+xL = float(input("Enter final   space grid point  [100]: "))
+t0 = float(input("Enter starting time  grid point [0]: "))
+tF = float(input("Enter final   time   grid point  [10]: "))
+D  = float(input("Enter Thermal Diffusivity value  [0.005]: "))
+bc1 = float(input("Enter Dirichlet value at x0 for any t [30]: "))
+bc2 = float(input("Enter Neumann flux  at xL for any t  [60]: "))
 
 # ── Grid ──────────────────────────────────────────────────────────
 t_vec = np.linspace(t0, tF, N)
@@ -37,7 +37,7 @@ T[0, :] = bc1
 mid = M // 2
 T[mid, 0] = 100
 
-# ── Time-stepping ─────────────────────────────────────────────────
+# Time-stepping 
 for n in range(0, N - 1):
     # Neumann BC at right end (ghost-point)
     T[M - 1, n + 1] = (alpha * (T[M - 2, n] + (2 * dx * bc2) + T[M - 2, n])
@@ -48,7 +48,7 @@ for n in range(0, N - 1):
         T[i, n + 1] = (alpha * (T[i - 1, n] + T[i + 1, n])
                        + (1 - 2 * alpha) * T[i, n])
 
-# ── Plot ──────────────────────────────────────────────────────────
+# Plot
 snapshots = [49, 99, 249, 499, 999]
 snapshots = [s for s in snapshots if s < N]
 
