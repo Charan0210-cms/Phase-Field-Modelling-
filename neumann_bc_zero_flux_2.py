@@ -7,15 +7,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-M  = int(input("Enter No. of grid points for space interval [3000]: ")
-N  = int(input("Enter No. of grid points for time  interval [3000]: ") 
-x0 = float(input("Enter starting space grid point [0]: ") 
-xL = float(input("Enter final   space grid point  [100]: ") 
-t0 = float(input("Enter starting time  grid point [0]: ")  
-tF = float(input("Enter final   time   grid point  [10]: ") 
-D  = float(input("Enter Thermal Diffusivity value  [0.005]: ") 
-bc1 = float(input("Enter boundary flux value at x0 for any t [0]: ") 
-bc2 = float(input("Enter boundary flux value at xL for any t [0]: ") 
+M  = int(input("Enter No. of grid points for space interval [3000]: "))
+N  = int(input("Enter No. of grid points for time  interval [3000]: ")) 
+x0 = float(input("Enter starting space grid point [0]: ")) 
+xL = float(input("Enter final   space grid point  [100]: ")) 
+t0 = float(input("Enter starting time  grid point [0]: "))  
+tF = float(input("Enter final   time   grid point  [10]: ")) 
+D  = float(input("Enter Thermal Diffusivity value  [0.005]: ")) 
+bc1 = float(input("Enter boundary flux value at x0 for any t [0]: ")) 
+bc2 = float(input("Enter boundary flux value at xL for any t [0]: ")) 
 
 # Grids
 t_vec = np.linspace(t0, tF, N)
